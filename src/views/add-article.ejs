@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <title>Add Article</title>
+
+    <style>
+      /* Quill editor dark styling */
+      .ql-toolbar.ql-snow {
+        background: #18181b;
+        border: 1px solid #27272a;
+        border-radius: 0.75rem 0.75rem 0 0;
+      }
+      .ql-container.ql-snow {
+        background: #09090b;
+        border: 1px solid #27272a;
+        border-radius: 0 0 0.75rem 0.75rem;
+        color: #e4e4e7;
+        min-height: 200px;
+      }
+      .ql-editor::before {
+        color: #71717a;
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body class="bg-zinc-950 min-h-screen p-8 relative">
+    <!-- Background glowing orbs -->
+    <div class="max-w-5xl mx-auto relative z-10">
+      <div
+        class="mx-auto flex items-center justify-evenly flex-wrap gap-3 mb-8"
+      >
+        <div class="flex gap-4">
+          <a
+            href="/articles/all"
+            class="px-6 py-2 bg-zinc-900/30 border border-zinc-800/50 text-zinc-400 font-medium rounded-xl hover:bg-zinc-800/30 hover:text-zinc-300 transition-all duration-200"
+          >
+            All Articles
+          </a>
+          <a
+            href="/articles/create"
+            class="px-6 py-2 bg-zinc-800/50 border border-zinc-700/50 text-white font-medium rounded-xl hover:bg-zinc-700/50 transition-all duration-200"
+          >
+            Create New
+          </a>
+          <a
+            href="/articles/view"
+            class="px-6 py-2 bg-zinc-900/30 border border-zinc-800/50 text-zinc-400 font-medium rounded-xl hover:bg-zinc-800/30 hover:text-zinc-300 transition-all duration-200"
+          >
+            Your Articles
+          </a>
+        </div>
+        <div>
+          <a
+            href="/users/profile"
+            class="text-zinc-300 hover:text-white font-medium inline-flex items-center gap-2 group transition-colors"
+          >
+            Profile
+            <svg
+              class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              ></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-2xl mx-auto relative z-10">
+      <!-- Card -->
+      <div
+        class="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl shadow-2xl p-10"
+      >
+        <h1
+          class="text-3xl md:text-4xl font-bold text-center text-white mb-10 leading-tight"
+        >
+          <i
+            >Time to brew a new story,
+            <span class="text-indigo-400"><%= userHandle %></span> ☕</i
+          >
+        </h1>
+
+        <form action="/articles/create" method="POST" class="space-y-8">
+          <!-- Title -->
+          <div class="space-y-2">
+            <label for="title" class="block text-sm font-medium text-zinc-300">
+              Title:
+            </label>
+            <input
+              name="title"
+              type="text"
+              id="title"
+              required
+              placeholder="Enter article title"
+              class="w-full px-4 py-3 bg-zinc-950/80 border border-zinc-800/60 rounded-xl text-white placeholder-zinc-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 outline-none"
+            />
+          </div>
+
+          <!-- Body -->
+          <div class="space-y-2">
+            <label for="body" class="block text-sm font-medium text-zinc-300">
+              Body:
+            </label>
+
+            <!-- Quill editor container -->
+            <div id="editor" class="rounded-xl overflow-hidden"></div>
+
+            <!-- Hidden input for HTML -->
+            <input type="hidden" name="body" id="hiddenBody" />
+          </div>
+
+          <!-- Submit -->
+          <div class="flex justify-evenly items-center gap-4">
+            <button
+              type="submit"
+              class="w-1/2 bg-indigo-600/80 hover:bg-indigo-600 border border-indigo-500/30 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-zinc-950"
+            >
+              Publish Article
+            </button>
+            <div class="">
+              <a
+                href="/articles/all"
+                class="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
+                >Go back</a
+              >
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+      const quill = new Quill("#editor", {
+        theme: "snow",
+        placeholder: "Write your article here...",
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, 3, false] }],
+            ["bold", "italic", "underline"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["link", "blockquote", "code-block"],
+          ],
+        },
+      });
+
+      // Copy HTML content to hidden input on submit
+      const form = document.querySelector("form");
+      form.onsubmit = function () {
+        const bodyInput = document.getElementById("hiddenBody");
+        bodyInput.value = quill.root.innerHTML;
+      };
+    </script>
+  </body>
+</html>

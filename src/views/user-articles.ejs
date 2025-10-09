@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Articles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-zinc-950 min-h-screen p-8 relative">
+    <div class="max-w-5xl mx-auto relative z-10">
+      <div class="flex justify-between items-center mb-8">
+        <a
+          href="/articles/create"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-200"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            ></path>
+          </svg>
+          New Article
+        </a>
+        <a
+          href="/users/profile"
+          class="text-zinc-300 hover:text-white font-medium inline-flex items-center gap-2 group transition-colors"
+        >
+          Profile
+          <svg
+            class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            ></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class="flex flex-wrap gap-3 mb-8">
+        <a
+          href="/articles/all"
+          class="px-6 py-2 bg-zinc-900/30 border border-zinc-800/50 text-zinc-400 font-medium rounded-xl hover:bg-zinc-800/30 hover:text-zinc-300 transition-all duration-200"
+        >
+          All Articles
+        </a>
+        <a
+          href="/articles/create"
+          class="px-6 py-2 bg-zinc-900/30 border border-zinc-800/50 text-zinc-400 font-medium rounded-xl hover:bg-zinc-800/30 hover:text-zinc-300 transition-all duration-200"
+        >
+          Create New
+        </a>
+        <a
+          href="/articles/view"
+          class="px-6 py-2 bg-zinc-800/50 border border-zinc-700/50 text-white font-medium rounded-xl hover:bg-zinc-700/50 transition-all duration-200"
+        >
+          Your Articles
+        </a>
+      </div>
+
+      <% if (articles.length === 0) { %>
+      <div
+        class="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-12 text-center text-zinc-400 shadow-2xl"
+      >
+        <p>No articles uploaded yet.</p>
+        <a
+          href="/articles/create"
+          class="inline-block mt-6 px-6 py-3 bg-indigo-600/80 hover:bg-indigo-600 text-white font-medium rounded-xl transition"
+        >
+          ➕ Create your first article
+        </a>
+      </div>
+      <% } else { %>
+
+      <div class="grid gap-8">
+        <% articles.forEach(article => { %>
+        <div
+          class="bg-zinc-900/60 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-8 hover:border-indigo-500/30 transition-all duration-300 shadow-xl hover:shadow-indigo-500/10"
+        >
+          <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4"
+          >
+            <h2 class="text-2xl font-semibold text-white">
+              <%= article.title %>
+            </h2>
+            <div class="text-sm text-zinc-400">
+              <%= new Date(article.createdAt).toLocaleDateString("en-GB") %> <%
+              if (article.updatedAt) { %>
+              <span class="text-green-400 ml-2 italic">
+                • Updated <%= new
+                Date(article.updatedAt).toLocaleDateString("en-GB") %>
+              </span>
+              <% } %>
+            </div>
+          </div>
+          <div class="bg-zinc-800/30 rounded-xl p-4 mb-4">
+            <p class="text-zinc-300 text-sm line-clamp-2">
+              <%= article.body.replace(/<[^>]+>/g, '').substring(0, 150) %>...
+            </p>
+          </div>
+
+          <a
+            href="/articles/<%= article.id %>"
+            class="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+          >
+            Read more →
+          </a>
+        </div>
+        <% }) %>
+      </div>
+      <% } %>
+
+      <div class="flex justify-center mt-12">
+        <a
+          href="/articles/create"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600/80 hover:bg-indigo-600 border border-indigo-500/30 text-white font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-indigo-500/20"
+        >
+          ➕ Add another article
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

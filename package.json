@@ -1,0 +1,28 @@
+{
+  "name": "blog-site",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "type": "module",
+  "author": "Rero",
+  "license": "ISC",
+  "description": "Node+Express+Mongo+EJS blog site",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.2",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-router": "^0.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.0",
+    "multer": "^2.0.2",
+    "request-ip": "^3.3.0",
+    "uuid": "^11.1.0"
+  }
+}
