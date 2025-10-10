@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 export const getArticles = async (req, res) => {
   try {
-    const articles = await Article.find();
+    const articles = await Article.find().sort({ createdAt: -1 });
     const user = req.user;
     const articlesWithAuthors = await Promise.all(
       articles.map(async (article) => {
