@@ -2,7 +2,7 @@ import express from "express";
 import { authToken } from "../middlewares/authMiddleware.js";
 import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
-import upload from "../middlewares/upload.js";
+import multer from "multer";
 
 const router = express.Router();
 import {
@@ -50,6 +50,8 @@ router
   })
   .post(authToken, updateUser);
 
+const upload = multer({ storage: multer.memoryStorage() });
+
 router
   .route("/update-photo")
   .post(authToken, upload.single("photo"), async (req, res) => {
@@ -65,9 +67,15 @@ router
         });
       }
       //making changes  HERE
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "uploads",
-        use_filename: true,
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "profile_photos", use_filename: true },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        uploadStream.end(req.file.buffer);
       });
       //we could have used Promise too, but async/await makes the code more readable and presents itself like a sync code block
       await User.findByIdAndUpdate(req.user._id, {
