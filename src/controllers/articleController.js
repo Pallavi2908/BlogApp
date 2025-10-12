@@ -34,7 +34,9 @@ export const viewArticles = async (req, res) => {
   try {
     const userHandle = req.user.userHandle;
 
-    const userArticles = await Article.find({ authorHandle: userHandle });
+    const userArticles = await Article.find({ authorHandle: userHandle }).sort({
+      createdAt: -1,
+    });
     //no reading JSON files, we are able to save memory!
     res.render("user-articles", {
       articles: userArticles,

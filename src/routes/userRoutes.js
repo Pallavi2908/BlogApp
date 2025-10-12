@@ -1,6 +1,9 @@
 import express from "express";
 import { authToken } from "../middlewares/authMiddleware.js";
+import dotenv from "dotenv";
+import { v2 as cloudinary } from "cloudinary";
 import upload from "../middlewares/upload.js";
+
 const router = express.Router();
 import {
   addUser,
@@ -10,6 +13,14 @@ import {
   updateUser,
 } from "../controllers/userController.js";
 import User from "../models/User.js";
+//reading all confidenetials
+dotenv.config();
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
+
 router.route("/").get(getUsers);
 
 router
@@ -43,7 +54,9 @@ router
   .route("/update-photo")
   .post(authToken, upload.single("photo"), async (req, res) => {
     try {
-      // console.log("req.file: ", req.file, "req.body:", req.body);
+      //multer here will parse the form-data
+      //temp store the file
+      //make it available as req.file
       if (!req.file) {
         const user = await User.findById(req.user._id);
         return res.render("user-profile", {
@@ -51,9 +64,15 @@ router
           message: "Select an image before uploading",
         });
       }
-      const fileName = req.file.filename;
-
-      await User.findByIdAndUpdate(req.user._id, { photo: fileName });
+      //making changes  HERE
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "uploads",
+        use_filename: true,
+      });
+      //we could have used Promise too, but async/await makes the code more readable and presents itself like a sync code block
+      await User.findByIdAndUpdate(req.user._id, {
+        photo: result.secure_url, // This is the Cloudinary URL
+      });
       res.redirect("/users/profile");
     } catch (error) {
       console.log("Error in saving to DB: ", error);

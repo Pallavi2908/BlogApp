@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import Article from "../models/Article.js";
 import { createToken } from "../../utils/tokenUtils.js";
-// import { encryptedPass } from "../../utils/pass.js";
 export const getUsers = async (req, res) => {
   const users = await User.find();
   res.render("users", { users });
@@ -13,7 +12,6 @@ export const addUser = async (req, res) => {
   try {
     const { name, password, userHandle, emailId, birthday } = req.body;
     const securedPass = await bcrypt.hash(password, saltRounds);
-    console.log("securedPass:", securedPass);
 
     const user = new User({
       name,
@@ -23,7 +21,6 @@ export const addUser = async (req, res) => {
       birthday,
     });
 
-    console.log("Stored the password in a secure way:", user);
     await user.save(); // save returns { success, message }
     //set them token
     const token = createToken(user);
@@ -47,7 +44,6 @@ export const addUser = async (req, res) => {
 
       return res.render("add-user", { error: message });
     }
-    console.log(error);
     res.render("add-user", { error: error });
   }
 };
@@ -56,10 +52,7 @@ export const loginUser = async (req, res) => {
   console.log("Entered loginUser");
   try {
     const { userHandle, password } = req.body;
-
     const user = await User.findOne({ userHandle });
-
-    // console.log(user);
     if (user) {
       //if found now check if password matches
       //password is hashed and stored
@@ -68,7 +61,6 @@ export const loginUser = async (req, res) => {
           console.log("Error in comparison:", err);
         }
         if (result) {
-          console.log(result);
           const token = createToken(user);
           res.cookie("token", token, {
             httpOnly: true,
