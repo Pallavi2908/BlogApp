@@ -15,6 +15,11 @@ import {
 import User from "../models/User.js";
 //reading all confidenetials
 dotenv.config();
+console.log("ENV CHECK:", {
+  CLOUD_NAME: process.env.CLOUD_NAME || "MISSING",
+  CLOUD_KEY: process.env.CLOUD_KEY || "MISSING",
+  CLOUD_SECRET: process.env.CLOUD_SECRET ? "EXISTS" : "MISSING",
+});
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_KEY,
