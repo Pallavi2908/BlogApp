@@ -119,7 +119,7 @@ export const updateUser = async (req, res) => {
     const token = createToken(user);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: true, //this should be true - otherwise it can be intercepted MITM attack
       sameSite: "strict",
       maxAge: 60 * 60 * 1000,
     });
