@@ -3,6 +3,7 @@
 
 Blogging platform built with Node.js, Express, and MongoDB, featuring secure authentication (JWT and BCrypt) , cloud-based image storage (Cloudinary), and a clean, responsive interface.
 
+****Update:** Added Redis caching layer to the /articles/all endpoint - **_decrease in response time from 2.15s to 350ms (upto 84%)_**
 
 ## Live Demo
 
