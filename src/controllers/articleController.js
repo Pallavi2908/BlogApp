@@ -1,11 +1,31 @@
 import Article from "../models/Article.js";
 import User from "../models/User.js";
+import dotenv from "dotenv";
+import { createClient } from "redis";
+dotenv.config();
+
+const client = createClient({
+  url: process.env.REDIS_URL,
+});
+
+await client.connect();
+console.log("✅ Connected to Redis Cloud!");
 
 export const getArticles = async (req, res) => {
   try {
-    const articles = await Article.find().sort({ createdAt: -1 });
+    const cacheKey = "articlesList";
     const user = req.user;
-    const articlesWithAuthors = await Promise.all(
+    const cached = await client.get(cacheKey);
+    if (cached) {
+      console.log("Cache hit🟢");
+      const articles = JSON.parse(cached);
+
+      return res.render("articles", { articles, user });
+    }
+
+    const articles = await Article.find().sort({ createdAt: -1 });
+
+    const articleswithAuthors = await Promise.all(
       articles.map(async (article) => {
         const author = await User.findOne({ userHandle: article.authorHandle });
         return {
@@ -14,9 +34,11 @@ export const getArticles = async (req, res) => {
         };
       })
     );
-    res.render("articles", { articles: articlesWithAuthors, user });
-  } catch (err) {
-    console.error(err);
+    console.log("Cache miss🟡");
+    await client.setEx(cacheKey, 300, JSON.stringify(articleswithAuthors));
+    res.render("articles", { articles: articleswithAuthors, user });
+  } catch (error) {
+    console.error(error);
     res.render("articles", { articles: [], user: req.user });
   }
 };
