@@ -1,7 +1,7 @@
 
 # BlogApp - AI-Powered Blogging Platform
 
-Blogging platform built with Node.js, Express, and MongoDB, featuring secure authentication (JWT and BCrypt) , cloud-based image storage (Cloudinary), and a clean, responsive interface.
+Blogging platform built with Node.js, Express, Mongoose + MongoDB, Redis , featuring secure authentication (JWT and BCrypt) , cloud-based image storage (Cloudinary), and a clean, responsive interface.
 
 ****Update:** Added Redis caching layer to the /articles/all endpoint - **_decrease in response time from 2.15s to 350ms (upto 84%)_**
 
@@ -16,6 +16,7 @@ Blogging platform built with Node.js, Express, and MongoDB, featuring secure aut
 - **Profile Management**: User profiles with Cloudinary-powered profile photo uploads
 - **Responsive Design**: Clean, mobile-friendly interface built with EJS templates
 - **Cloud Storage**: Profile images stored on Cloudinary CDN for fast, reliable delivery
+- **Caching** : Implemented Redis caching on different endpoints, resulting in a significant decrease in response time
 - **RESTful API**: Well-structured API endpoints following REST principles
 
 ## 🛠️ Tech Stack
@@ -39,9 +40,10 @@ Blogging platform built with Node.js, Express, and MongoDB, featuring secure aut
 ## 📦 Installation
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (v18 or higher)
 - MongoDB (local or Atlas account)
 - Cloudinary account
+- Redis v8
 
 ### Setup
 
