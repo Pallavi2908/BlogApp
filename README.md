@@ -1,5 +1,5 @@
 
-# BlogApp - AI-Powered Blogging Platform
+# BlogApp - Blogging Platform
 
 Blogging platform built with Node.js, Express, Mongoose + MongoDB, Redis , featuring secure authentication (JWT and BCrypt) , cloud-based image storage (Cloudinary), and a clean, responsive interface.
 
