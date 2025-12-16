@@ -1,7 +1,7 @@
 
 # BlogApp - Blogging Platform
 
-Blogging platform built with Node.js, Express, Mongoose + MongoDB, Redis , featuring secure authentication (JWT and BCrypt) , cloud-based image storage (Cloudinary), and a clean, responsive interface.
+Blogging platform built with Node.js, Express, Mongoose + MongoDB, Redis , featuring secure authentication (JWT and BCrypt) , cloud-based image storage (Cloudinary), a markdown-text editor for users to edit their articles and a clean, responsive interface.
 
 ****Update:** Added Redis caching layer to the /articles/all endpoint - **_decrease in response time from 2.15s to 350ms (upto 84%)_**
 
