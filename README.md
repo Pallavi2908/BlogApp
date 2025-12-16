@@ -10,7 +10,7 @@ Blogging platform built with Node.js, Express, Mongoose + MongoDB, Redis , featu
 **[View Live Application](https://blogapp-lngd.onrender.com/users/create)**
 
 ##  Features
-
+- **Markdown text editor**: A responsive Markdown editor for editing articles.
 - **User Authentication**: Secure JWT-based authentication with bcrypt password encryption
 - **Article Management**: Create, read, update, and delete blog posts with rich text content
 - **Profile Management**: User profiles with Cloudinary-powered profile photo uploads
@@ -157,4 +157,7 @@ Deployed on Render with:
 - HTTPS in production
 
 
-
+## Screenshots
+![](https://res.cloudinary.com/dfedndfmw/image/upload/v1765863694/Screenshot_2025-12-16_110921_rpaohv.png)
+![](https://res.cloudinary.com/dfedndfmw/image/upload/v1765863694/Screenshot_2025-12-16_110838_hgrsuh.png)
+![](https://res.cloudinary.com/dfedndfmw/image/upload/v1765863873/Screenshot_2025-12-16_111305_p23vqc.png)
